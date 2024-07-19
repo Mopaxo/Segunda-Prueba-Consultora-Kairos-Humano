@@ -1,0 +1,28 @@
+Paso 1: Crear un entorno virtual e instalar las dependencias:
+
+python3 -m venv venv
+source venv/bin/activate
+pip install requests psycopg2-binary
+
+Paso 2: Empaquetar las dependencias junto con el archivo pregunta3.py:
+
+mkdir -p package
+pip install --target ./package requests psycopg2-binary
+cp pregunta3.py package/
+cd package
+zip -r ../pregunta3.zip .
+cd ..
+
+Paso 3: Ir a la consola de AWS Lambda, crear una nueva función Lambda, subir el archivo pregunta3.zip.
+
+Paso 4: Configurar las variables de entorno para la conexion con la BDD,  DB_NAME, DB_USER, DB_PASSWORD, y DB_HOST.
+
+Paso 5: Crear una regla de CloudWatch Events, dentro consola de CloudWatch, creamos una nueva regla de evento y configuramos
+la regla para que se ejecute diariamente a una hora específica, luego seleccionamos la función Lambda como el destino del evento.
+
+Explicación del Mecanismo de Ejecución en la Nube
+AWS Lambda: Servicio que permite ejecutar código sin aprovisionar ni gestionar servidores.
+AWS CloudWatch Events: Servicio que permite programar eventos para invocar funciones Lambda en intervalos específicos (por ejemplo, diariamente).
+Variables de entorno: Configuradas en la consola de AWS Lambda para almacenar las credenciales de la base de datos.
+Empaquetado del código: Creación del archivo ZIP que incluye el código de la función Lambda y sus dependencias.
+Este enfoque asegura que la función Python se ejecute diariamente en la nube, logrando un esquema NearRealtime para la actualización de datos.
